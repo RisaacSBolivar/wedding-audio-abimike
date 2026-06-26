@@ -370,9 +370,9 @@
     </div>
 
     <div class="controls" id="controls" style="display:none;">
-      <button class="btn" id="btnRewind" title="Retroceder 10s">
+      <button class="btn" id="btnRewind" title="Retroceder">
         <svg viewBox="0 0 24 24">
-          <path d="M11 18V6l-8.5 6 8.5 6zm.5-6l8.5 6V6l-8.5 6z"/>
+          <path d="M6 6h2v12H6zm3.5 6l8.5 6V6z"/>
         </svg>
       </button>
 
@@ -385,9 +385,9 @@
         </svg>
       </button>
 
-      <button class="btn" id="btnForward" title="Adelantar 10s">
+      <button class="btn" id="btnForward" title="Adelantar">
         <svg viewBox="0 0 24 24">
-          <path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/>
+          <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
         </svg>
       </button>
     </div>
@@ -476,7 +476,15 @@
         canvas.width = rect.width * dpr;
         canvas.height = rect.height * dpr;
         ctx2d.scale(dpr, dpr);
-        ctx2d.clearRect(0, 0, canvas.width, canvas.height);
+        ctx2d.clearRect(0, 0, rect.width, rect.height);
+        
+        // Línea base elegante
+        ctx2d.beginPath();
+        ctx2d.moveTo(0, rect.height / 2);
+        ctx2d.lineTo(rect.width, rect.height / 2);
+        ctx2d.strokeStyle = 'rgba(151, 83, 43, 0.2)';
+        ctx2d.lineWidth = 2;
+        ctx2d.stroke();
       }
 
       window.addEventListener('resize', resizeCanvas);
@@ -494,7 +502,15 @@
           const W = canvas.getBoundingClientRect().width;
           const H = canvas.getBoundingClientRect().height;
           
-          ctx2d.clearRect(0, 0, W, H); // Limpiamos la forma estática
+          ctx2d.clearRect(0, 0, W, H);
+          
+          // Línea base elegante
+          ctx2d.beginPath();
+          ctx2d.moveTo(0, H / 2);
+          ctx2d.lineTo(W, H / 2);
+          ctx2d.strokeStyle = 'rgba(151, 83, 43, 0.2)';
+          ctx2d.lineWidth = 2;
+          ctx2d.stroke();
           
           const bufLen = analyser.frequencyBinCount;
           const freqData = new Uint8Array(bufLen);
@@ -554,7 +570,7 @@
           iconPause.style.display = 'none';
           cancelAnimationFrame(animFrameId);
           if (canvas) {
-            ctx2d.clearRect(0, 0, canvas.width, canvas.height);
+            resizeCanvas();
           }
         });
       }

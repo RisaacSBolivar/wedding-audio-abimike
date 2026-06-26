@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Abigail & Miguel – Nuestra Canción</title>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap"
+    rel="stylesheet" />
   <style>
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
@@ -21,8 +26,13 @@
       --dark: #2c1f1f;
     }
 
-    html, body {
+    html,
+    body {
+      width: 100%;
       height: 100%;
+      margin: 0;
+      padding: 0;
+      overflow: hidden; /* Previene barras de scroll en el iframe */
     }
 
     body {
@@ -31,71 +41,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px;
-      min-height: 100vh;
+      padding: 12px;
     }
 
     .player-card {
-      background: linear-gradient(135deg, rgba(44, 31, 31, 0.97) 0%, rgba(60, 35, 35, 0.97) 100%);
-      border: 1px solid rgba(201, 169, 110, 0.3);
+      background: transparent;
+      border: none;
       border-radius: 20px;
       padding: 28px 24px 24px;
       width: 100%;
       max-width: 520px;
-      box-shadow:
-        0 20px 60px rgba(0,0,0,0.5),
-        0 0 0 1px rgba(201,169,110,0.1),
-        inset 0 1px 0 rgba(255,255,255,0.05);
+      box-shadow: none;
       position: relative;
       overflow: hidden;
     }
 
-    .player-card::before {
-      content: '';
-      position: absolute;
-      top: -60px; right: -60px;
-      width: 180px; height: 180px;
-      background: radial-gradient(circle, rgba(201,169,110,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
+    .player-card::before,
     .player-card::after {
-      content: '';
-      position: absolute;
-      bottom: -40px; left: -40px;
-      width: 140px; height: 140px;
-      background: radial-gradient(circle, rgba(212,160,160,0.06) 0%, transparent 70%);
-      pointer-events: none;
+      display: none;
     }
 
     .player-header {
-      text-align: center;
-      margin-bottom: 22px;
-    }
-
-    .song-ornament {
-      color: var(--gold);
-      font-size: 13px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      opacity: 0.7;
-      margin-bottom: 6px;
-    }
-
-    .song-title {
-      font-family: 'Playfair Display', serif;
-      font-style: italic;
-      font-size: clamp(18px, 4vw, 22px);
-      color: var(--gold-light);
-      margin-bottom: 4px;
-      line-height: 1.3;
-    }
-
-    .song-artist {
-      font-size: 12px;
-      color: rgba(201, 169, 110, 0.6);
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      display: none;
     }
 
     .waveform-container {
@@ -143,7 +110,7 @@
     .progress-bar-fill {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--rose-dark), var(--gold));
+      background: #97532B;
       border-radius: 2px;
       transition: width 0.1s linear;
     }
@@ -163,32 +130,48 @@
       align-items: center;
       justify-content: center;
       transition: transform 0.15s ease, opacity 0.15s ease;
-      color: var(--gold);
+      color: #97532B;
       opacity: 0.7;
       padding: 8px;
       border-radius: 50%;
     }
 
-    .btn:hover { opacity: 1; transform: scale(1.1); }
-    .btn:active { transform: scale(0.95); }
+    .btn:hover {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    .btn:active {
+      transform: scale(0.95);
+    }
 
     .btn-play {
-      width: 58px; height: 58px;
-      background: linear-gradient(135deg, var(--gold), var(--rose-dark));
+      width: 58px;
+      height: 58px;
+      background: #97532B;
       border-radius: 50%;
-      box-shadow: 0 0 0 1px rgba(201,169,110,0.3), 0 8px 24px rgba(201,169,110,0.2);
+      box-shadow: 0 0 0 1px rgba(151, 83, 43, 0.3), 0 8px 24px rgba(151, 83, 43, 0.2);
       opacity: 1;
-      color: var(--dark);
+      color: #ffffff;
     }
 
     .btn-play:hover {
       transform: scale(1.08);
-      box-shadow: 0 0 0 1px rgba(201,169,110,0.5), 0 12px 32px rgba(201,169,110,0.35);
+      box-shadow: 0 0 0 1px rgba(151, 83, 43, 0.5), 0 12px 32px rgba(151, 83, 43, 0.35);
       opacity: 1;
     }
 
-    .btn-play svg { width: 24px; height: 24px; fill: var(--dark); }
-    .btn svg { width: 20px; height: 20px; fill: currentColor; }
+    .btn-play svg {
+      width: 24px;
+      height: 24px;
+      fill: #ffffff;
+    }
+
+    .btn svg {
+      width: 20px;
+      height: 20px;
+      fill: currentColor;
+    }
 
     .volume-row {
       display: flex;
@@ -201,8 +184,9 @@
     .volume-slider {
       -webkit-appearance: none;
       appearance: none;
-      width: 90px; height: 3px;
-      background: rgba(201,169,110,0.2);
+      width: 90px;
+      height: 3px;
+      background: rgba(201, 169, 110, 0.2);
       border-radius: 2px;
       outline: none;
       cursor: pointer;
@@ -210,21 +194,23 @@
 
     .volume-slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 12px; height: 12px;
+      width: 12px;
+      height: 12px;
       background: var(--gold);
       border-radius: 50%;
-      box-shadow: 0 0 4px rgba(201,169,110,0.5);
+      box-shadow: 0 0 4px rgba(201, 169, 110, 0.5);
     }
 
     .volume-slider::-moz-range-thumb {
-      width: 12px; height: 12px;
+      width: 12px;
+      height: 12px;
       background: var(--gold);
       border-radius: 50%;
       border: none;
     }
 
     .upload-zone {
-      border: 1px dashed rgba(201,169,110,0.3);
+      border: 1px dashed rgba(201, 169, 110, 0.3);
       border-radius: 12px;
       padding: 20px;
       text-align: center;
@@ -233,13 +219,31 @@
       margin-top: 18px;
     }
 
-    .upload-zone:hover { border-color: rgba(201,169,110,0.6); background: rgba(201,169,110,0.05); }
-    .upload-zone.drag-over { border-color: var(--gold); background: rgba(201,169,110,0.08); }
+    .upload-zone:hover {
+      border-color: rgba(201, 169, 110, 0.6);
+      background: rgba(201, 169, 110, 0.05);
+    }
 
-    .upload-zone p { font-size: 12px; color: rgba(201,169,110,0.5); margin-top: 8px; }
-    .upload-zone svg { width: 28px; height: 28px; fill: rgba(201,169,110,0.4); }
+    .upload-zone.drag-over {
+      border-color: var(--gold);
+      background: rgba(201, 169, 110, 0.08);
+    }
 
-    #fileInput { display: none; }
+    .upload-zone p {
+      font-size: 12px;
+      color: rgba(201, 169, 110, 0.5);
+      margin-top: 8px;
+    }
+
+    .upload-zone svg {
+      width: 28px;
+      height: 28px;
+      fill: rgba(201, 169, 110, 0.4);
+    }
+
+    #fileInput {
+      display: none;
+    }
 
     .loading-bars {
       display: none;
@@ -249,7 +253,9 @@
       height: 80px;
     }
 
-    .loading-bars.active { display: flex; }
+    .loading-bars.active {
+      display: flex;
+    }
 
     .loading-bar {
       width: 4px;
@@ -259,22 +265,46 @@
     }
 
     @keyframes loadingPulse {
-      0%, 100% { height: 10px; opacity: 0.3; }
-      50% { height: 40px; opacity: 1; }
+
+      0%,
+      100% {
+        height: 10px;
+        opacity: 0.3;
+      }
+
+      50% {
+        height: 40px;
+        opacity: 1;
+      }
     }
 
-    .loading-bar:nth-child(2) { animation-delay: 0.1s; }
-    .loading-bar:nth-child(3) { animation-delay: 0.2s; }
-    .loading-bar:nth-child(4) { animation-delay: 0.3s; }
-    .loading-bar:nth-child(5) { animation-delay: 0.2s; }
-    .loading-bar:nth-child(6) { animation-delay: 0.1s; }
+    .loading-bar:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+
+    .loading-bar:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+
+    .loading-bar:nth-child(4) {
+      animation-delay: 0.3s;
+    }
+
+    .loading-bar:nth-child(5) {
+      animation-delay: 0.2s;
+    }
+
+    .loading-bar:nth-child(6) {
+      animation-delay: 0.1s;
+    }
 
     .notification {
       position: absolute;
-      bottom: 16px; left: 50%;
+      bottom: 16px;
+      left: 50%;
       transform: translateX(-50%) translateY(20px);
-      background: rgba(201,169,110,0.15);
-      border: 1px solid rgba(201,169,110,0.3);
+      background: rgba(201, 169, 110, 0.15);
+      border: 1px solid rgba(201, 169, 110, 0.3);
       color: var(--gold-light);
       padding: 8px 16px;
       border-radius: 20px;
@@ -292,368 +322,445 @@
     }
 
     @media (max-width: 400px) {
-      .player-card { padding: 20px 16px 18px; }
-      .btn-play { width: 52px; height: 52px; }
-      .controls { gap: 14px; }
+      .player-card {
+        padding: 20px 16px 18px;
+      }
+
+      .btn-play {
+        width: 52px;
+        height: 52px;
+      }
+
+      .controls {
+        gap: 14px;
+      }
     }
   </style>
 </head>
+
 <body>
 
-<div class="player-card" id="playerCard">
+  <div class="player-card" id="playerCard">
 
-  <div class="player-header">
-    <div class="song-ornament">♪ &nbsp; Nuestra Canción &nbsp; ♪</div>
-    <div class="song-title" id="songTitle">Carga tu canción</div>
-    <div class="song-artist" id="songArtist">Abigail &amp; Miguel</div>
-  </div>
-
-  <div class="waveform-container" id="waveformContainer" style="display:none;">
-    <canvas id="waveformCanvas"></canvas>
-  </div>
-
-  <div class="loading-bars" id="loadingBars">
-    <div class="loading-bar"></div>
-    <div class="loading-bar"></div>
-    <div class="loading-bar"></div>
-    <div class="loading-bar"></div>
-    <div class="loading-bar"></div>
-    <div class="loading-bar"></div>
-  </div>
-
-  <div class="time-row" id="timeRow" style="display:none;">
-    <span class="time-display" id="currentTime">0:00</span>
-    <div class="progress-bar-container" id="progressBarContainer">
-      <div class="progress-bar-fill" id="progressBarFill"></div>
+    <div class="player-header">
+      <div class="song-ornament">♪ &nbsp; Nuestra Canción &nbsp; ♪</div>
+      <div class="song-title" id="songTitle">Cargando...</div>
+      <div class="song-artist" id="songArtist">Abigail &amp; Miguel</div>
     </div>
-    <span class="time-display" id="totalTime">0:00</span>
-  </div>
 
-  <div class="controls" id="controls" style="display:none;">
-    <button class="btn" id="btnRewind" title="Retroceder 10s">
-      <svg viewBox="0 0 24 24">
-        <path d="M11.99 5V1l-5 5 5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6h-2c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"/>
+    <div class="waveform-container" id="waveformContainer" style="display:none;">
+      <canvas id="waveformCanvas"></canvas>
+    </div>
+
+    <div class="loading-bars" id="loadingBars">
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+      <div class="loading-bar"></div>
+    </div>
+
+    <div class="time-row" id="timeRow" style="display:none;">
+      <span class="time-display" id="currentTime">0:00</span>
+      <div class="progress-bar-container" id="progressBarContainer">
+        <div class="progress-bar-fill" id="progressBarFill"></div>
+      </div>
+      <span class="time-display" id="totalTime">0:00</span>
+    </div>
+
+    <div class="controls" id="controls" style="display:none;">
+      <button class="btn" id="btnRewind" title="Retroceder 10s">
+        <svg viewBox="0 0 24 24">
+          <path
+            d="M11.99 5V1l-5 5 5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6h-2c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z" />
+        </svg>
+      </button>
+
+      <button class="btn btn-play" id="btnPlay" title="Reproducir">
+        <svg id="iconPlay" viewBox="0 0 24 24">
+          <path d="M8 5v14l11-7z" />
+        </svg>
+        <svg id="iconPause" viewBox="0 0 24 24" style="display:none;">
+          <path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z" />
+        </svg>
+      </button>
+
+      <button class="btn" id="btnForward" title="Adelantar 10s">
+        <svg viewBox="0 0 24 24">
+          <path d="M18 5l-5 5V1l-5 5v14l5-5v4l5-5V5z" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="volume-row" id="volumeRow" style="display:none;">
+      <svg viewBox="0 0 24 24" fill="rgba(201,169,110,0.5)" style="width:16px;height:16px;">
+        <path
+          d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5zm7-.17v6.34L9.83 13H7v-2h2.83L12 8.83z" />
       </svg>
-    </button>
-
-    <button class="btn btn-play" id="btnPlay" title="Reproducir">
-      <svg id="iconPlay" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-      <svg id="iconPause" viewBox="0 0 24 24" style="display:none;"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-    </button>
-
-    <button class="btn" id="btnForward" title="Adelantar 10s">
-      <svg viewBox="0 0 24 24">
-        <path d="M18 5l-5 5V1l-5 5v14l5-5v4l5-5V5z"/>
+      <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.8" />
+      <svg viewBox="0 0 24 24" fill="rgba(201,169,110,0.5)" style="width:16px;height:16px;">
+        <path
+          d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.97z" />
       </svg>
-    </button>
+    </div>
+
+    <div class="upload-zone" id="uploadZone">
+      <svg viewBox="0 0 24 24">
+        <path
+          d="M12 3l-5.5 9h11L12 3zm0 3.84L14.93 11h-5.87L12 6.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5S15.01 22 17.5 22s4.5-2.01 4.5-4.5S19.99 13 17.5 13zm2.5 5h-2v2h-1v-2h-2v-1h2v-2h1v2h2v1zM11 13.5V22H3v-8.5h8zm-1.5 1.5h-5v5h5v-5z" />
+      </svg>
+      <p>Haz clic o arrastra tu archivo de música aquí</p>
+      <p style="margin-top:4px;font-size:10px;opacity:0.6;">MP3, WAV, OGG, M4A</p>
+      <input type="file" id="fileInput" accept="audio/*" />
+    </div>
+
+    <div class="notification" id="notification"></div>
   </div>
 
-  <div class="volume-row" id="volumeRow" style="display:none;">
-    <svg viewBox="0 0 24 24" fill="rgba(201,169,110,0.5)" style="width:16px;height:16px;">
-      <path d="M18.5 12c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM5 9v6h4l5 5V4L9 9H5zm7-.17v6.34L9.83 13H7v-2h2.83L12 8.83z"/>
-    </svg>
-    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.01" value="0.8" />
-    <svg viewBox="0 0 24 24" fill="rgba(201,169,110,0.5)" style="width:16px;height:16px;">
-      <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.97z"/>
-    </svg>
-  </div>
+  <script>
+    (function () {
+      'use strict';
 
-  <div class="upload-zone" id="uploadZone">
-    <svg viewBox="0 0 24 24">
-      <path d="M12 3l-5.5 9h11L12 3zm0 3.84L14.93 11h-5.87L12 6.84zM17.5 13c-2.49 0-4.5 2.01-4.5 4.5S15.01 22 17.5 22s4.5-2.01 4.5-4.5S19.99 13 17.5 13zm2.5 5h-2v2h-1v-2h-2v-1h2v-2h1v2h2v1zM11 13.5V22H3v-8.5h8zm-1.5 1.5h-5v5h5v-5z"/>
-    </svg>
-    <p>Haz clic o arrastra tu archivo de música aquí</p>
-    <p style="margin-top:4px;font-size:10px;opacity:0.6;">MP3, WAV, OGG, M4A</p>
-    <input type="file" id="fileInput" accept="audio/*" />
-  </div>
+      // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      // 🎵 CONFIGURACIÓN — Edita estos tres valores
+      // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+      var SONG_URL = 'Todo tiene su hora.mp3';      // ← nombre de tu archivo de audio
+      var SONG_TITLE = 'Nuestra Canción';      // ← título que se mostrará
+      var SONG_ARTIST = 'Abigail & Miguel';     // ← nombre de los novios
+      // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-  <div class="notification" id="notification"></div>
-</div>
+      const uploadZone = document.getElementById('uploadZone');
+      const fileInput = document.getElementById('fileInput');
+      const waveformCont = document.getElementById('waveformContainer');
+      const canvas = document.getElementById('waveformCanvas');
+      const ctx2d = canvas.getContext('2d');
+      const loadingBars = document.getElementById('loadingBars');
+      const timeRow = document.getElementById('timeRow');
+      const controlsEl = document.getElementById('controls');
+      const volumeRow = document.getElementById('volumeRow');
+      const btnPlay = document.getElementById('btnPlay');
+      const iconPlay = document.getElementById('iconPlay');
+      const iconPause = document.getElementById('iconPause');
+      const btnRewind = document.getElementById('btnRewind');
+      const btnForward = document.getElementById('btnForward');
+      const currentTimeEl = document.getElementById('currentTime');
+      const totalTimeEl = document.getElementById('totalTime');
+      const progressFill = document.getElementById('progressBarFill');
+      const progressCont = document.getElementById('progressBarContainer');
+      const volumeSlider = document.getElementById('volumeSlider');
+      const songTitle = document.getElementById('songTitle');
+      const notification = document.getElementById('notification');
 
-<script>
-(function () {
-  'use strict';
+      let audioCtx, analyser, source, audioElement;
+      let peaks = [];
+      let isPlaying = false;
+      let animFrameId = null;
+      let notifTimer = null;
 
-  const uploadZone    = document.getElementById('uploadZone');
-  const fileInput     = document.getElementById('fileInput');
-  const waveformCont  = document.getElementById('waveformContainer');
-  const canvas        = document.getElementById('waveformCanvas');
-  const ctx2d         = canvas.getContext('2d');
-  const loadingBars   = document.getElementById('loadingBars');
-  const timeRow       = document.getElementById('timeRow');
-  const controlsEl    = document.getElementById('controls');
-  const volumeRow     = document.getElementById('volumeRow');
-  const btnPlay       = document.getElementById('btnPlay');
-  const iconPlay      = document.getElementById('iconPlay');
-  const iconPause     = document.getElementById('iconPause');
-  const btnRewind     = document.getElementById('btnRewind');
-  const btnForward    = document.getElementById('btnForward');
-  const currentTimeEl = document.getElementById('currentTime');
-  const totalTimeEl   = document.getElementById('totalTime');
-  const progressFill  = document.getElementById('progressBarFill');
-  const progressCont  = document.getElementById('progressBarContainer');
-  const volumeSlider  = document.getElementById('volumeSlider');
-  const songTitle     = document.getElementById('songTitle');
-  const notification  = document.getElementById('notification');
-
-  let audioCtx, analyser, source, audioElement;
-  let peaks = [];
-  let isPlaying = false;
-  let animFrameId = null;
-  let notifTimer = null;
-
-  function formatTime(secs) {
-    if (!secs || isNaN(secs)) return '0:00';
-    const m = Math.floor(secs / 60);
-    const s = Math.floor(secs % 60);
-    return m + ':' + s.toString().padStart(2, '0');
-  }
-
-  function showNotif(msg) {
-    notification.textContent = msg;
-    notification.classList.add('show');
-    clearTimeout(notifTimer);
-    notifTimer = setTimeout(() => notification.classList.remove('show'), 2500);
-  }
-
-  function resizeCanvas() {
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width  = rect.width  * dpr;
-    canvas.height = rect.height * dpr;
-    ctx2d.scale(dpr, dpr);
-    if (peaks.length) {
-      const prog = audioElement ? audioElement.currentTime / (audioElement.duration || 1) : 0;
-      drawStaticWaveform(prog);
-    }
-  }
-
-  window.addEventListener('resize', resizeCanvas);
-
-  function drawStaticWaveform(progress) {
-    if (!peaks.length) return;
-    const W = canvas.getBoundingClientRect().width;
-    const H = canvas.getBoundingClientRect().height;
-    ctx2d.clearRect(0, 0, W, H);
-
-    const barCount = Math.min(peaks.length, Math.floor(W / 3));
-    const step = peaks.length / barCount;
-    const barW = (W / barCount) * 0.55;
-    const gap  = (W / barCount) * 0.45;
-    const progressX = progress * W;
-
-    for (let i = 0; i < barCount; i++) {
-      const idx = Math.floor(i * step);
-      const amp = peaks[idx];
-      const barH = Math.max(3, amp * H * 0.9);
-      const x = i * (barW + gap);
-      const y = (H - barH) / 2;
-      const isPlayed = (x + barW / 2) < progressX;
-
-      if (isPlayed) {
-        ctx2d.fillStyle = 'rgba(232, 213, 163, 0.9)';
-      } else {
-        const dist = (x + barW / 2 - progressX) / W;
-        const alpha = Math.max(0.15, 0.55 - dist * 0.3);
-        ctx2d.fillStyle = 'rgba(201, 169, 110, ' + alpha + ')';
+      function formatTime(secs) {
+        if (!secs || isNaN(secs)) return '0:00';
+        const m = Math.floor(secs / 60);
+        const s = Math.floor(secs % 60);
+        return m + ':' + s.toString().padStart(2, '0');
       }
 
-      const radius = barW / 2;
-      ctx2d.beginPath();
-      if (ctx2d.roundRect) {
-        ctx2d.roundRect(x, y, barW, barH, radius);
-      } else {
-        ctx2d.rect(x, y, barW, barH);
+      function showNotif(msg) {
+        notification.textContent = msg;
+        notification.classList.add('show');
+        clearTimeout(notifTimer);
+        notifTimer = setTimeout(() => notification.classList.remove('show'), 2500);
       }
-      ctx2d.fill();
-    }
-  }
 
-  function drawLiveWaveform() {
-    if (!analyser || !audioElement) return;
-    animFrameId = requestAnimationFrame(drawLiveWaveform);
-
-    const progress = audioElement.currentTime / (audioElement.duration || 1);
-    currentTimeEl.textContent = formatTime(audioElement.currentTime);
-    progressFill.style.width  = (progress * 100) + '%';
-
-    drawStaticWaveform(progress);
-
-    // Live frequency overlay
-    const W = canvas.getBoundingClientRect().width;
-    const H = canvas.getBoundingClientRect().height;
-    const bufLen = analyser.frequencyBinCount;
-    const freqData = new Uint8Array(bufLen);
-    analyser.getByteFrequencyData(freqData);
-
-    const barCount = Math.min(80, Math.floor(W / 3));
-    const step = Math.floor(bufLen / barCount);
-    const barW = (W / barCount) * 0.55;
-    const gap  = (W / barCount) * 0.45;
-
-    for (let i = 0; i < barCount; i++) {
-      const val = freqData[i * step] / 255;
-      if (val < 0.05) continue;
-      const barH = val * H * 0.6;
-      const x = i * (barW + gap);
-      const y = (H - barH) / 2;
-      ctx2d.fillStyle = 'rgba(232, 213, 163, ' + (val * 0.35) + ')';
-      ctx2d.beginPath();
-      if (ctx2d.roundRect) {
-        ctx2d.roundRect(x, y, barW, barH, barW / 2);
-      } else {
-        ctx2d.rect(x, y, barW, barH);
-      }
-      ctx2d.fill();
-    }
-  }
-
-  function extractPeaks(arrayBuffer) {
-    loadingBars.classList.add('active');
-    waveformCont.style.display = 'none';
-
-    const decCtx = new (window.AudioContext || window.webkitAudioContext)();
-    decCtx.decodeAudioData(arrayBuffer.slice(0), function(buffer) {
-      const channelData = buffer.getChannelData(0);
-      const samples = 400;
-      const blockSize = Math.floor(channelData.length / samples);
-      const raw = [];
-      let maxVal = 0;
-
-      for (let i = 0; i < samples; i++) {
-        let sum = 0;
-        for (let j = 0; j < blockSize; j++) {
-          sum += Math.abs(channelData[i * blockSize + j]);
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = rect.width * dpr;
+        canvas.height = rect.height * dpr;
+        ctx2d.scale(dpr, dpr);
+        if (peaks.length) {
+          const prog = audioElement ? audioElement.currentTime / (audioElement.duration || 1) : 0;
+          drawStaticWaveform(prog);
         }
-        const avg = sum / blockSize;
-        raw.push(avg);
-        if (avg > maxVal) maxVal = avg;
       }
 
-      peaks = raw.map(function(v) { return maxVal > 0 ? v / maxVal : 0; });
+      window.addEventListener('resize', resizeCanvas);
 
-      loadingBars.classList.remove('active');
-      waveformCont.style.display = 'block';
-      timeRow.style.display      = 'flex';
-      controlsEl.style.display   = 'flex';
-      volumeRow.style.display    = 'flex';
-      uploadZone.style.display   = 'none';
+      function drawStaticWaveform(progress) {
+        if (!peaks.length) return;
+        const W = canvas.getBoundingClientRect().width;
+        const H = canvas.getBoundingClientRect().height;
+        ctx2d.clearRect(0, 0, W, H);
 
-      resizeCanvas();
-      decCtx.close();
-    }, function(err) {
-      loadingBars.classList.remove('active');
-      showNotif('Error al decodificar el audio');
-      console.error(err);
-    });
-  }
+        const barCount = Math.min(peaks.length, Math.floor(W / 3));
+        const step = peaks.length / barCount;
+        const barW = (W / barCount) * 0.55;
+        const gap = (W / barCount) * 0.45;
+        const progressX = progress * W;
 
-  function setupAudio(url) {
-    if (audioElement) { audioElement.pause(); audioElement.src = ''; }
-    if (animFrameId) cancelAnimationFrame(animFrameId);
-    if (audioCtx) audioCtx.close();
+        for (let i = 0; i < barCount; i++) {
+          const idx = Math.floor(i * step);
+          const amp = peaks[idx];
+          const barH = Math.max(3, amp * H * 0.9);
+          const x = i * (barW + gap);
+          const y = (H - barH) / 2;
+          const isPlayed = (x + barW / 2) < progressX;
 
-    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    analyser = audioCtx.createAnalyser();
-    analyser.fftSize = 256;
-    analyser.smoothingTimeConstant = 0.8;
+          if (isPlayed) {
+            ctx2d.fillStyle = 'rgba(151, 83, 43, 0.95)';
+          } else {
+            const dist = (x + barW / 2 - progressX) / W;
+            const alpha = Math.max(0.15, 0.55 - dist * 0.3);
+            ctx2d.fillStyle = 'rgba(151, 83, 43, ' + alpha + ')';
+          }
 
-    audioElement = new Audio();
-    audioElement.src = url;
-    audioElement.volume = parseFloat(volumeSlider.value);
+          const radius = barW / 2;
+          ctx2d.beginPath();
+          if (ctx2d.roundRect) {
+            ctx2d.roundRect(x, y, barW, barH, radius);
+          } else {
+            ctx2d.rect(x, y, barW, barH);
+          }
+          ctx2d.fill();
+        }
+      }
 
-    source = audioCtx.createMediaElementSource(audioElement);
-    source.connect(analyser);
-    analyser.connect(audioCtx.destination);
+      function drawLiveWaveform() {
+        if (!audioElement) return;
+        animFrameId = requestAnimationFrame(drawLiveWaveform);
 
-    audioElement.addEventListener('loadedmetadata', function() {
-      totalTimeEl.textContent = formatTime(audioElement.duration);
-    });
+        const progress = audioElement.currentTime / (audioElement.duration || 1);
+        currentTimeEl.textContent = formatTime(audioElement.currentTime);
+        progressFill.style.width = (progress * 100) + '%';
 
-    audioElement.addEventListener('ended', function() {
-      isPlaying = false;
-      iconPlay.style.display  = 'block';
-      iconPause.style.display = 'none';
-      cancelAnimationFrame(animFrameId);
-      drawStaticWaveform(0);
-    });
-  }
+        drawStaticWaveform(progress);
 
-  function handleFile(file) {
-    if (!file || !file.type.startsWith('audio/')) {
-      showNotif('Por favor selecciona un archivo de audio');
-      return;
-    }
-    const name = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
-    songTitle.textContent = name;
+        if (analyser) {
+          // Análisis real de frecuencia (funciona en servidores http://)
+          const W = canvas.getBoundingClientRect().width;
+          const H = canvas.getBoundingClientRect().height;
+          const bufLen = analyser.frequencyBinCount;
+          const freqData = new Uint8Array(bufLen);
+          analyser.getByteFrequencyData(freqData);
 
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      extractPeaks(e.target.result);
-      const url = URL.createObjectURL(file);
-      setupAudio(url);
-    };
-    reader.readAsArrayBuffer(file);
-  }
+          const barCount = Math.min(80, Math.floor(W / 3));
+          const step = Math.floor(bufLen / barCount);
+          const barW = (W / barCount) * 0.55;
+          const gap = (W / barCount) * 0.45;
 
-  uploadZone.addEventListener('click', function() { fileInput.click(); });
-  fileInput.addEventListener('change', function(e) { handleFile(e.target.files[0]); });
-  uploadZone.addEventListener('dragover', function(e) { e.preventDefault(); uploadZone.classList.add('drag-over'); });
-  uploadZone.addEventListener('dragleave', function() { uploadZone.classList.remove('drag-over'); });
-  uploadZone.addEventListener('drop', function(e) {
-    e.preventDefault();
-    uploadZone.classList.remove('drag-over');
-    handleFile(e.dataTransfer.files[0]);
-  });
+          for (let i = 0; i < barCount; i++) {
+            const val = freqData[i * step] / 255;
+            if (val < 0.05) continue;
+            const barH = val * H * 0.6;
+            const x = i * (barW + gap);
+            const y = (H - barH) / 2;
+            ctx2d.fillStyle = 'rgba(151, 83, 43, ' + (val * 0.35) + ')';
+            ctx2d.beginPath();
+            if (ctx2d.roundRect) {
+              ctx2d.roundRect(x, y, barW, barH, barW / 2);
+            } else {
+              ctx2d.rect(x, y, barW, barH);
+            }
+            ctx2d.fill();
+          }
+        }
+      }
 
-  btnPlay.addEventListener('click', function() {
-    if (!audioElement) return;
-    if (audioCtx.state === 'suspended') audioCtx.resume();
+      function extractPeaks(arrayBuffer) {
+        loadingBars.classList.add('active');
+        waveformCont.style.display = 'none';
 
-    if (isPlaying) {
-      audioElement.pause();
-      cancelAnimationFrame(animFrameId);
-      isPlaying = false;
-      iconPlay.style.display  = 'block';
-      iconPause.style.display = 'none';
-    } else {
-      audioElement.play().catch(function() {
-        showNotif('Haz clic en la página primero para activar el audio');
+        const decCtx = new (window.AudioContext || window.webkitAudioContext)();
+        decCtx.decodeAudioData(arrayBuffer.slice(0), function (buffer) {
+          const channelData = buffer.getChannelData(0);
+          const samples = 400;
+          const blockSize = Math.floor(channelData.length / samples);
+          const raw = [];
+          let maxVal = 0;
+
+          for (let i = 0; i < samples; i++) {
+            let sum = 0;
+            for (let j = 0; j < blockSize; j++) {
+              sum += Math.abs(channelData[i * blockSize + j]);
+            }
+            const avg = sum / blockSize;
+            raw.push(avg);
+            if (avg > maxVal) maxVal = avg;
+          }
+
+          peaks = raw.map(function (v) { return maxVal > 0 ? v / maxVal : 0; });
+
+          loadingBars.classList.remove('active');
+          waveformCont.style.display = 'block';
+          timeRow.style.display = 'flex';
+          controlsEl.style.display = 'flex';
+          volumeRow.style.display = 'flex';
+          uploadZone.style.display = 'none';
+
+          resizeCanvas();
+          decCtx.close();
+        }, function (err) {
+          loadingBars.classList.remove('active');
+          showNotif('Error al decodificar el audio');
+          console.error(err);
+        });
+      }
+
+      function setupAudio(url, bypassWebAudio = false) {
+        if (audioElement) { audioElement.pause(); audioElement.src = ''; }
+        if (animFrameId) cancelAnimationFrame(animFrameId);
+        if (audioCtx) { audioCtx.close(); audioCtx = null; analyser = null; }
+
+        audioElement = new Audio();
+        audioElement.src = url;
+        audioElement.volume = parseFloat(volumeSlider.value);
+
+        if (!bypassWebAudio) {
+            audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            analyser = audioCtx.createAnalyser();
+            analyser.fftSize = 256;
+            analyser.smoothingTimeConstant = 0.8;
+            source = audioCtx.createMediaElementSource(audioElement);
+            source.connect(analyser);
+            analyser.connect(audioCtx.destination);
+        }
+
+        audioElement.addEventListener('loadedmetadata', function () {
+          totalTimeEl.textContent = formatTime(audioElement.duration);
+        });
+
+        audioElement.addEventListener('ended', function () {
+          isPlaying = false;
+          iconPlay.style.display = 'block';
+          iconPause.style.display = 'none';
+          cancelAnimationFrame(animFrameId);
+          drawStaticWaveform(0);
+        });
+      }
+
+      function handleFile(file) {
+        if (!file || !file.type.startsWith('audio/')) {
+          showNotif('Por favor selecciona un archivo de audio');
+          return;
+        }
+        const name = file.name.replace(/\.[^.]+$/, '').replace(/[-_]/g, ' ');
+        songTitle.textContent = name;
+
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          extractPeaks(e.target.result);
+          const url = URL.createObjectURL(file);
+          setupAudio(url);
+        };
+        reader.readAsArrayBuffer(file);
+      }
+
+      uploadZone.addEventListener('click', function () { fileInput.click(); });
+      fileInput.addEventListener('change', function (e) { handleFile(e.target.files[0]); });
+      uploadZone.addEventListener('dragover', function (e) { e.preventDefault(); uploadZone.classList.add('drag-over'); });
+      uploadZone.addEventListener('dragleave', function () { uploadZone.classList.remove('drag-over'); });
+      uploadZone.addEventListener('drop', function (e) {
+        e.preventDefault();
+        uploadZone.classList.remove('drag-over');
+        handleFile(e.dataTransfer.files[0]);
       });
-      isPlaying = true;
-      iconPlay.style.display  = 'none';
-      iconPause.style.display = 'block';
-      drawLiveWaveform();
-    }
-  });
 
-  btnRewind.addEventListener('click', function() {
-    if (audioElement) audioElement.currentTime = Math.max(0, audioElement.currentTime - 10);
-  });
+      btnPlay.addEventListener('click', function () {
+        if (!audioElement) return;
+        if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
 
-  btnForward.addEventListener('click', function() {
-    if (audioElement) audioElement.currentTime = Math.min(audioElement.duration, audioElement.currentTime + 10);
-  });
+        if (isPlaying) {
+          audioElement.pause();
+          cancelAnimationFrame(animFrameId);
+          isPlaying = false;
+          iconPlay.style.display = 'block';
+          iconPause.style.display = 'none';
+        } else {
+          audioElement.play().catch(function () {
+            showNotif('Haz clic en la página primero para activar el audio');
+          });
+          isPlaying = true;
+          iconPlay.style.display = 'none';
+          iconPause.style.display = 'block';
+          drawLiveWaveform();
+        }
+      });
 
-  function seekFromEvent(e, container) {
-    const rect = container.getBoundingClientRect();
-    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
-    const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
-    if (audioElement) audioElement.currentTime = ratio * audioElement.duration;
-  }
+      btnRewind.addEventListener('click', function () {
+        if (audioElement) audioElement.currentTime = Math.max(0, audioElement.currentTime - 10);
+      });
 
-  progressCont.addEventListener('click', function(e) { seekFromEvent(e, progressCont); });
-  progressCont.addEventListener('touchstart', function(e) { e.preventDefault(); seekFromEvent(e, progressCont); }, { passive: false });
+      btnForward.addEventListener('click', function () {
+        if (audioElement) audioElement.currentTime = Math.min(audioElement.duration, audioElement.currentTime + 10);
+      });
 
-  waveformCont.addEventListener('click', function(e) { seekFromEvent(e, waveformCont); });
-  waveformCont.addEventListener('touchstart', function(e) { e.preventDefault(); seekFromEvent(e, waveformCont); }, { passive: false });
+      function seekFromEvent(e, container) {
+        const rect = container.getBoundingClientRect();
+        const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+        const ratio = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
+        if (audioElement) audioElement.currentTime = ratio * audioElement.duration;
+      }
 
-  volumeSlider.addEventListener('input', function() {
-    if (audioElement) audioElement.volume = parseFloat(volumeSlider.value);
-  });
+      progressCont.addEventListener('click', function (e) { seekFromEvent(e, progressCont); });
+      progressCont.addEventListener('touchstart', function (e) { e.preventDefault(); seekFromEvent(e, progressCont); }, { passive: false });
 
-})();
-</script>
+      waveformCont.addEventListener('click', function (e) { seekFromEvent(e, waveformCont); });
+      waveformCont.addEventListener('touchstart', function (e) { e.preventDefault(); seekFromEvent(e, waveformCont); }, { passive: false });
+
+      volumeSlider.addEventListener('input', function () {
+        if (audioElement) audioElement.volume = parseFloat(volumeSlider.value);
+      });
+
+      // ── Auto-carga la canción precargada al iniciar ──────────────────
+      (function autoLoad() {
+        document.getElementById('songTitle').textContent = SONG_TITLE;
+        document.getElementById('songArtist').textContent = SONG_ARTIST;
+
+        if (!SONG_URL) {
+          document.getElementById('songTitle').textContent = 'Carga tu canción';
+          return;
+        }
+
+        uploadZone.style.display = 'none';
+        loadingBars.classList.add('active');
+
+        function showPlayerUI() {
+          loadingBars.classList.remove('active');
+          waveformCont.style.display = 'block';
+          timeRow.style.display = 'flex';
+          controlsEl.style.display = 'flex';
+          volumeRow.style.display = 'flex';
+          resizeCanvas();
+        }
+
+        function useFallbackWaveform() {
+          // Patrón de onda musical de respaldo cuando fetch no está disponible (file://)
+          peaks = Array.from({ length: 400 }, function (_, i) {
+            return Math.max(0.08, 0.35 + 0.5 * Math.abs(Math.sin(i * 0.09)) * (0.55 + 0.45 * Math.sin(i * 0.033)));
+          });
+          showPlayerUI();
+        }
+
+        // Intentar fetch para extraer forma de onda real
+        fetch(SONG_URL)
+          .then(function (res) {
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.arrayBuffer();
+          })
+          .then(function (buffer) {
+            extractPeaks(buffer);
+            setupAudio(SONG_URL, false);
+          })
+          .catch(function () {
+            // fetch falla en protocolo file:// — usar patrón de respaldo y mostrar controles
+            setupAudio(SONG_URL, true);
+            useFallbackWaveform();
+          });
+      })();
+
+    })();
+  </script>
 
 </body>
+
 </html>

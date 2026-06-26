@@ -533,12 +533,13 @@
         currentTimeEl.textContent = formatTime(audioElement.currentTime);
         progressFill.style.width = (progress * 100) + '%';
 
-        drawStaticWaveform(progress);
-
         if (analyser) {
           // Análisis real de frecuencia (funciona en servidores http://)
           const W = canvas.getBoundingClientRect().width;
           const H = canvas.getBoundingClientRect().height;
+          
+          ctx2d.clearRect(0, 0, W, H); // Limpiamos la forma estática
+          
           const bufLen = analyser.frequencyBinCount;
           const freqData = new Uint8Array(bufLen);
           analyser.getByteFrequencyData(freqData);
